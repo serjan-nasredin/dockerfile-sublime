@@ -8,11 +8,11 @@ scope: Dockerfile
 extends: Packages/Dockerfile/Dockerfile.sublime-syntax
 
 variables:
-  control_keywords: (^FROM|CMD|COPY|WORKDIR|RUN)
+  control_keywords: (^FROM|CMD|COPY|WORKDIR|RUN|ENV|ADD|LABEL|STOPSIGNAL|USER|VOLUME|ONBUILD|EXPOSE)
 
 contexts:
   main:
-    - match: \b(^FROM|CMD|COPY|WORKDIR|RUN)\b
+    - match: \b(^FROM|CMD|COPY|WORKDIR|RUN|ENV|ADD|LABEL|STOPSIGNAL|USER|VOLUME|ONBUILD|EXPOSE)\b
       scope: keyword.control.Dockerfile
     - include: flags
     - match: \s(apt-get)\b
