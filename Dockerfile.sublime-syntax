@@ -1,0 +1,32 @@
+%YAML 1.2
+---
+name: Dockerfile
+comment: "Dockerfile Syntax: v0.0.1"
+file_extensions: [Dockerfile]
+uuid: 1c940d5b-ff4d-4d03-854b-701bffc44912
+scope: Dockerfile
+extends: Packages/Dockerfile/Dockerfile.sublime-syntax
+
+variables:
+  control_keywords: (^FROM|CMD|COPY|WORKDIR|RUN)
+
+contexts:
+  main:
+    - match: \b(^FROM|CMD|COPY|WORKDIR|RUN)\b
+      scope: keyword.control.Dockerfile
+    - include: flags
+    - match: \s(apt-get)\b
+      scope: meta.function-call.Dockerfile
+    - match: '"'
+      push: string-quoted-double
+
+  string-quoted-double:
+    - meta_scope: string.quoted.double.Dockerfile
+    - match: \\.
+      scope: constant.character.escape.Dockerfile
+    - match: '"'
+      pop: true
+
+  flags:
+    - match: (-?-[a-z]{1,}|)
+      scope: variable
