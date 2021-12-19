@@ -1,4 +1,4 @@
-# Dockerfile syntax highlighting support for Sublime Text 3
+# Dockerfile syntax highlighting for Sublime Text 3
 
 You can download using the following commands:
 
