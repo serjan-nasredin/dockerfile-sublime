@@ -19,6 +19,8 @@ contexts:
       scope: meta.function-call.Dockerfile
     - match: '"'
       push: string-quoted-double
+    - match: '\&\&'
+      scope: constant
 
   string-quoted-double:
     - meta_scope: string.quoted.double.Dockerfile
