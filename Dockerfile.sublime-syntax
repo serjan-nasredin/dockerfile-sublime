@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 name: Dockerfile
-comment: "Dockerfile Syntax: v1.0.0"
+comment: "Dockerfile Syntax: v1.5.0"
 file_extensions: [Dockerfile]
 uuid: 1c940d5b-ff4d-4d03-854b-701bffc44912
 scope: Dockerfile
@@ -46,7 +46,7 @@ contexts:
 
   comment-single-line:
     - match: '#'
-      scope: punctuation.definition.comment.v
+      scope: punctuation.definition.comment.Dockerfile
       push:
         - meta_scope: comment.line.Dockerfile
         - match: $\n?
