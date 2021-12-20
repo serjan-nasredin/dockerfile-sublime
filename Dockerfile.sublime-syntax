@@ -18,7 +18,6 @@ contexts:
     - include: operator-word
     - include: const
     - include: string-double
-    - include: build-arg
 
   keyword:
     - match: '^(FROM|CMD|COPY|WORKDIR|RUN|ENV|ADD|LABEL|STOPSIGNAL|USER|VOLUME|ONBUILD|EXPOSE|MAINTAINER|ARG|ENTRYPOINT|SHELL)'
@@ -37,12 +36,8 @@ contexts:
         - match: '"'
           pop: true
 
-  build-arg:
-    - match: '(\$[A-Z_]*)'
-      scope: support.function.Dockerfile
-
   const:
-    - match: '\&\&|\>|\;|\<|([0-9])'
+    - match: '\&\&|\>|\;|\<|([0-9])|(\$[A-Z_]*)'
       scope: constant.Dockerfile
 
   flags:
