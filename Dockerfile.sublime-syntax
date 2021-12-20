@@ -8,19 +8,20 @@ scope: Dockerfile
 extends: Packages/Dockerfile/Dockerfile.sublime-syntax
 
 variables:
-  control_keywords: (^FROM|CMD|COPY|WORKDIR|RUN|ENV|ADD|LABEL|STOPSIGNAL|USER|VOLUME|ONBUILD|EXPOSE)
+  control_keywords: '^(FROM|CMD|COPY|WORKDIR|RUN|ENV|ADD|LABEL|STOPSIGNAL|USER|VOLUME|ONBUILD|EXPOSE)'
 
 contexts:
   main:
-    - match: \b(^FROM|CMD|COPY|WORKDIR|RUN|ENV|ADD|LABEL|STOPSIGNAL|USER|VOLUME|ONBUILD|EXPOSE)\b
+    - match: '^(FROM|CMD|COPY|WORKDIR|RUN|ENV|ADD|LABEL|STOPSIGNAL|USER|VOLUME|ONBUILD|EXPOSE)'
       scope: keyword.control.Dockerfile
     - include: flags
-    - match: \s(apt-get)\b
-      scope: meta.function-call.Dockerfile
+    - include: comment-single-line
+    - match: '(apt\-get|get|install|clean|rm\s\-rf)'
+      scope: keyword.operator.word.Dockerfile
     - match: '"'
       push: string-quoted-double
     - match: '\&\&'
-      scope: constant
+      scope: constant.Dockerfile
 
   string-quoted-double:
     - meta_scope: string.quoted.double.Dockerfile
@@ -31,4 +32,12 @@ contexts:
 
   flags:
     - match: (-?-[a-z]{1,}|)
-      scope: variable
+      scope: variable.Dockerfile
+
+  comment-single-line:
+    - match: '#'
+      scope: punctuation.definition.comment.v
+      push:
+        - meta_scope: comment.line.Dockerfile
+        - match: $\n?
+          pop: true
