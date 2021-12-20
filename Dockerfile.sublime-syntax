@@ -8,30 +8,45 @@ scope: Dockerfile
 extends: Packages/Dockerfile/Dockerfile.sublime-syntax
 
 variables:
-  control_keywords: '^(FROM|CMD|COPY|WORKDIR|RUN|ENV|ADD|LABEL|STOPSIGNAL|USER|VOLUME|ONBUILD|EXPOSE)'
+  control_keywords: '^(FROM|CMD|COPY|WORKDIR|RUN|ENV|ADD|LABEL|STOPSIGNAL|USER|VOLUME|ONBUILD|EXPOSE|MAINTAINER|ARG|ENTRYPOINT|SHELL)'
 
 contexts:
   main:
-    - match: '^(FROM|CMD|COPY|WORKDIR|RUN|ENV|ADD|LABEL|STOPSIGNAL|USER|VOLUME|ONBUILD|EXPOSE)'
-      scope: keyword.control.Dockerfile
+    - include: keyword
     - include: flags
     - include: comment-single-line
-    - match: '(apt\-get|get|install|clean|rm\s\-rf)'
+    - include: operator-word
+    - include: const
+    - include: string-double
+    - include: build-arg
+
+  keyword:
+    - match: '^(FROM|CMD|COPY|WORKDIR|RUN|ENV|ADD|LABEL|STOPSIGNAL|USER|VOLUME|ONBUILD|EXPOSE|MAINTAINER|ARG|ENTRYPOINT|SHELL)'
+      scope: keyword.control.Dockerfile
+
+  operator-word:
+    - match: \b(apt\-get|get|install|clean|rm\s*\-rf|pip3|pip|python3|python|echo|exit)\b
       scope: keyword.operator.word.Dockerfile
+
+  string-double:
     - match: '"'
-      push: string-quoted-double
-    - match: '\&\&'
+      push:
+        - meta_scope: string.quoted.double.Dockerfile
+        - match: \\.
+          scope: constant.character.escape.Dockerfile
+        - match: '"'
+          pop: true
+
+  build-arg:
+    - match: '(\$[A-Z_]*)'
+      scope: support.function.Dockerfile
+
+  const:
+    - match: '\&\&|\>|\;|\<|([0-9])'
       scope: constant.Dockerfile
 
-  string-quoted-double:
-    - meta_scope: string.quoted.double.Dockerfile
-    - match: \\.
-      scope: constant.character.escape.Dockerfile
-    - match: '"'
-      pop: true
-
   flags:
-    - match: (-?-[a-z]{1,}|)
+    - match: (-?-[a-z_0-9]{1,}|)
       scope: variable.Dockerfile
 
   comment-single-line:
