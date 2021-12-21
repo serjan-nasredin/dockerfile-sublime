@@ -29,11 +29,13 @@ contexts:
 
   string-double:
     - match: '"'
+      scope: punctuation.definition.string.begin.toit
       push:
         - meta_scope: string.quoted.double.Dockerfile
         - match: \\.
           scope: constant.character.escape.Dockerfile
         - match: '"'
+          scope: punctuation.definition.string.end.toit
           pop: true
 
   const:
