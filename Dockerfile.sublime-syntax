@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 name: Dockerfile
-comment: "Dockerfile Syntax: v1.5.1"
+comment: "Dockerfile Syntax: v1.5.2"
 file_extensions: [Dockerfile]
 uuid: 1c940d5b-ff4d-4d03-854b-701bffc44912
 scope: Dockerfile
